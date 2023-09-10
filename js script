@@ -1,0 +1,35 @@
+const form = document.getElementById('search-form');
+const bookInfo = document.getElementById('book-info');
+const apiKey = '';
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const bookTitle = form['book-title'].value;
+    const apiUrl = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(bookTitle)}&key=${apiKey}`;
+
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        // Limpar conteúdo anterior
+        bookInfo.innerHTML = '';
+
+        if (data.items && data.items.length > 0) {
+            const book = data.items[0].volumeInfo;
+            const bookElement = document.createElement('div');
+            bookElement.classList.add('book');
+            bookElement.innerHTML = `
+                <h3>${book.title}</h3>
+                <p>Autor: ${book.authors.join(', ')}</p>
+                <p>Ano: ${book.publishedDate}</p>
+                <p>Descrição: ${book.description}</p>
+            `;
+            bookInfo.appendChild(bookElement);
+        } else {
+            bookInfo.innerHTML = '<p>Livro não encontrado.</p>';
+        }
+    } catch (error) {
+        console.error('Erro ao buscar livro:', error);
+    }
+});
