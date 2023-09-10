@@ -1,6 +1,6 @@
 const form = document.getElementById('search-form');
 const bookInfo = document.getElementById('book-info');
-const apiKey = '';
+const apiKey = 'AIzaSyCDtq0fBKOgGgXGFZvd7tAAVSMaFc8CPCY';
 
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
